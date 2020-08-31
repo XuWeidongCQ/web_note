@@ -453,7 +453,7 @@ axios.interceptors.response.use(function (response) {
     config: {…} //就是请求的config
     data: {code: 200, msg: Array(0)}
     headers: {content-type: "application/json"}
-    request: {
+    request: { //这里面就是xhr对象上的属性，原封不动的(可以看到axios对齐进行了封装)
         onabort: ƒ handleAbort()
         onerror: ƒ handleError()
         onload: null

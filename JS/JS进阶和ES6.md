@@ -2,11 +2,15 @@
 
 ## 一、词法作用域
 
+* js中函数的作用域由其声明的时候决定。而不是执行时候的位置
+
 ## 二、this
 
 ### 2.1 this的指向
 
 * this的指向由函数的调用位置决定
+* this是一个存在于函数作用域中的东西
+* 箭头函数的this在书写的时候就确定了，不是在执行的时候确定的
 
 ### 2.2 绑定规则(手写call,apply,bind)
 
@@ -56,6 +60,29 @@
   f()
   ```
 
+  ```js
+  function myCall(ctx=window,...args){
+    ctx['fn'] = this
+    let res = ctx['fn'](...args)
+    delete ctx['fn']
+    return res
+  }
+  
+  function myApply(ctx=window,args=[]){
+    ctx['fn'] = this
+    let res = ctx['fn'](...args)
+    delete ctx['fn']
+    return res
+  }
+  
+  function myBind(ctx=window){
+    let fn = this
+    return function(...args){
+      return fn.call(ctx,...args)
+    }
+  }
+  ```
+
   
 
 * 使用new操作符，绑定内部构造的新对象
@@ -69,6 +96,16 @@ new > 显示绑定(使用apply等) > 作为对象的方法
 箭头函数的this一旦被指定，无法修改
 
 ## 三、闭包
+
+* 当一个函数能够可以记住并访问所在的词法作用域时候，就会形成闭包。常见的例子是一个函数内部嵌套一个函数，然后将内部的函数绑定到全局中，就会形成闭包。
+
+* 作用
+
+  ```
+  1.形成模块，不污染全局变量，搭配立即执行函数对外进行暴露API
+  ```
+
+  
 
 ## 四、原型链与继承
 
@@ -99,7 +136,7 @@ new > 显示绑定(使用apply等) > 作为对象的方法
 
 ### 4.2 instanceof原理
 
-* 判断实例对象的__proto__属性与构造函数的prototype是不是用一个引用。如果不是，他会沿着对象的__proto__向上查找的，直到顶端Object
+* 判断实例对象的\_\__proto\__属性与构造函数的prototype是不是用一个引用。如果不是，他会沿着对象的\__proto__向上查找的，直到顶端Object
 
 ### 4.3 构造函数继承
 
@@ -251,6 +288,183 @@ Child.prototype.showSex = function(){}
 let child = new Child()
 ```
 
+## 五、面向对象
+
+### 5.1 prototype属性和\__proto__属性和constructor属性
+
+* js中函数是对象实例（由构造函数Function()产生，只不过我们写的时候不用这种方式）
+* ==每一个函数==都有一个prototype属性（它是一个对象）和\__proto__属性和constructor属性
+* 在大多数浏览器中，==每一个对象都有\__proto__属性和constructor属性==，指向对应的构造函数的prototype属性
+
+```js
+let obj = {}
+let func = function(){}
+
+//针对对象{}的结论
+obj.__proto__ === Object.prototype true
+Object.prototype.__proto__ === null true
+//Object.prototype是最终的继承点，包括一些公用的方法,如下:
+hasOwnProperty: ƒ hasOwnProperty()
+isPrototypeOf: ƒ isPrototypeOf()
+propertyIsEnumerable: ƒ propertyIsEnumerable()
+toLocaleString: ƒ toLocaleString()
+toString: ƒ toString() //增强类型检查必须调用的方法
+valueOf: ƒ valueOf()
+
+//针对函数的结论
+func.__proto__ === Function.prototype true
+func.prototype.__proto === Object.prototype true //函数有prototype属性
+Function.prototype.__proto__ === Object.prototype true
+Function.prototype.__proto__ === Function.prototype false
+//针对这一点，类型检查显示Function.prototype是一个函数,那么为什么其__proto__不指向Function.prototype???
+//查阅资料这是一个特殊的函数,执行它总是返回undefined,是为了兼容ES5
+
+//Function.prototype上有一些函数可以使用的方法或属性,如下:
+apply: ƒ apply()
+arguments: (...)//得到函数参数的类数组
+bind: ƒ bind()
+call: ƒ call()
+caller: (...)
+constructor: ƒ Function()
+length: 0 //得到函数参数的个数
+name: "" //得到函数名字，匿名函数无法获取名字
+toString: ƒ toString()
+
+//一些内置的构造函数都是由Function构造函数产生
+Array.__proto__ === Function.prototype true
+Object.__proto__ === Function.prototype true
+Set.__proto__ === Function.prototype true
+Function.__proto__ === Function.prototype true //甚至Function函数本身
+
+//js中所有对象的根 Object.prototype
+```
+
+
+
+#### 5.1.1 \__proto__属性
+
+* \__proto__属性是对象实例所独有的（函数也是对象，所有函数也有这个属性）
+* \__proto__属性指向产生该对象实例的构造函数上的原型对象（即prototype）
+
+<img src="../../../AppData/Roaming/Typora/typora-user-images/image-20191230173456484.png" alt="image-20191230173456484" style="zoom:80%;" />
+
+#### 5.1.2 prototype属性
+
+* prototype属性是函数独有的， 含义是函数的原型对象，里面包含所有实例共享的属性和方法
+* ==所有函数都可以作为构造函数==
+* 任何函数在创建的时候，其实会默认同时创建该函数的prototype对象
+
+<img src="../../../AppData/Roaming/Typora/typora-user-images/image-20191230203148275.png" alt="image-20191230203148275" style="zoom:80%;" />
+
+#### 5.1.3 constructor属性
+
+*  constructor属性是对象才拥有的
+*  指向该对象实例的构造函数
+*  所有constructor属性的终点就是Function这个构造函数，而Function对象的constructor是其本身
+
+<img src="../../../AppData/Roaming/Typora/typora-user-images/image-20191230205032180.png" alt="image-20191230205032180" style="zoom:80%;" />
+
+### 5.2 new 发生了什么
+
+```js
+function Student(name,age){
+    this.name = name;
+    this.age = age;
+}
+
+//该函数的本质是 当new的时候
+function Student(name,age){
+    var this = {
+        __proto__:Student.prototype,
+    }
+    this.name = name;
+    this.age = age;
+    return this;
+}
+
+//当使用new Student('xxx',23)时,构造函数中的this才会生效。
+
+//添加方法
+Student.prototype.方法1 = function(){}
+Student.prototype.方法2 = function(){}
+```
+
+### 5.3 Object上的一些重要的静态方法
+
+```js
+assign: ƒ assign() //合并对象要使用的函数
+create: ƒ create() //原型继承需要使用的函数
+defineProperties: ƒ defineProperties()
+defineProperty: ƒ defineProperty() //vue实现双向绑定的函数
+entries: ƒ entries() //++
+freeze: ƒ freeze()
+fromEntries: ƒ fromEntries()
+getOwnPropertyDescriptor: ƒ getOwnPropertyDescriptor()
+getOwnPropertyDescriptors: ƒ getOwnPropertyDescriptors()
+getOwnPropertyNames: ƒ getOwnPropertyNames()
+getOwnPropertySymbols: ƒ getOwnPropertySymbols()
+getPrototypeOf: ƒ getPrototypeOf()
+is: ƒ is()
+isExtensible: ƒ isExtensible()
+isFrozen: ƒ isFrozen()
+isSealed: ƒ isSealed()
+keys: ƒ keys() //++
+preventExtensions: ƒ preventExtensions()
+seal: ƒ seal()
+setPrototypeOf: ƒ setPrototypeOf()
+values: ƒ values() //++
+```
+
+## 六、函数
+
+### 6.1 给函数指定默认值
+
+```js
+function log(x,y='wd'){
+    console.log(x,y)
+}
+//当某一个参数为undefined的时候，会使用默认值填充
+```
+
+### 6.2 剩余变量
+
+* 剩余变量之后不能有其他的参数
+
+```js
+//会把传入到函数中的多余参数，形成一个数组[]，赋给args
+
+function test(x,...args){//注意：这里的args是一个数组，
+    
+}
+test(1,2,3,4)
+
+
+```
+
+## 七、JS中类型转换
+
+### 7.1 相等条件
+
+* 在使用过程中一定要使用===操作符，可以避免不必要的麻烦
+
+![image-20200723152542507](../../../AppData/Roaming/Typora/typora-user-images/image-20200723152542507.png)
+
+### 7.2 能够被转换为false的只有5个
+
+```
+undefined
+null
+0 +0 -0
+''
+NaN
+
+!!undefind为false
+!!null为false
+!!0为false
+!!''为false
+!!NaN为false
+```
+
 
 
 # $$ES6
@@ -300,7 +514,7 @@ import {name,add} from './calculator.js'
 ### 0.2 区别
 
 - es6模块中的顶层this指向undefined
-- CommonJS模块输出是一个值的复制，es6模块输出值的引用
+- CommonJS模块输出是一个值的复制（就是复制出一个{}），es6模块输出值的引用(只读)
 - CommonJS在导入模块的时候就会运行代码，es6只会在编译的时候提供一个接口
 
 ## 一、兼容性说明
@@ -685,8 +899,8 @@ Promise.all([p1,p2]).then(function(arr){
 
 ```js
 //只有p1和p2有一个执行了resolve函数(有一个成功了)，才会执行then中的函数，否则执行catch中的函数
-Promise.race([p1,p2]).then(function(arr){
-  let [res1,res2] = arr
+Promise.race([p1,p2]).then(function(res){
+  console.log(res)
 }).catch()
 ```
 
@@ -803,7 +1017,7 @@ getJSON("/post/1.json").then(function(post) {
 ## 十、生成器
 
 * 生成器是特殊的函数，可以在执行中间暂停
-* 普通函数不能再中间暂停
+* 普通函数不能在中间暂停
 * 使用场景：请求数据
 
 ### 10.1 yield
@@ -879,3 +1093,49 @@ getJSON("/post/1.json").then(function(post) {
 ### 10.2 请求数据相互依赖的写法
 
 * 一个数据请求完成后，根据这个请求的结果去请求另一个请求
+
+## 十一、async/await
+
+* 这两个属于ES2017 同时注意到Promise Generator属于ES2016
+* 使用babel进行转义 会将async函数转换为promise和generator的组合（所以可以说async是Generator函数的语法糖）
+* 通俗来讲，async函数就是将Generator函数的*号变为async，将yield替换为await
+
+```
+特点
+1.async表示函数中可能有异步操作
+2.await表示紧跟在后面的表达式需要等待结果
+3.await后面表达式的值可以是原始类型的值(数字，字符串等，这就相当于是同步操作了)，也可以是promise对象(但是要等待其状态固定   才能执行下面的)
+4.async一定返回一个promise对象，如果返回一个普通值，会默认调用Promise.resolve()对其进行封装
+```
+
+```js
+console.log('script start') 1
+async function async1() {
+    await async2()
+    console.log('async1 end') 5
+}
+
+async function async2() {
+    console.log('async2 end')  2 
+}
+
+async1()
+
+setTimeout(function() {
+    console.log('setTimeout') 8
+}, 0)
+
+new Promise(resolve => {
+    console.log('Promise') 3
+    resolve()
+})
+    .then(function() {
+    console.log('promise1') 6
+})
+    .then(function() {
+    console.log('promise2') 7
+})
+
+console.log('script end')  4
+```
+

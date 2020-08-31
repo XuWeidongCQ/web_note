@@ -36,37 +36,54 @@
 
 * 与2015年5月4日发布，成为正式协议
 
-# 2 HTTP报文
+# 2 HTTP报文++
 
 ## 2.1 报文结构
+
+<img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200619144516817.png" alt="image-20200619144516817" style="zoom:67%;" />
 
 * 从web客户端发往web服务器的HTTP报文称为请求报文、反之为响应报文，此外没有其他报文。
 
 * 一般结构
 
-  <img src="../../AppData/Roaming/Typora/typora-user-images/image-20191224111401533.png" alt="image-20191224111401533"  />
+  <img src="../../../AppData/Roaming/Typora/typora-user-images/image-20191224111401533.png" alt="image-20191224111401533"  />
 
-![image-20191224111455836](../../AppData/Roaming/Typora/typora-user-images/image-20191224111455836.png)
+![image-20191224111455836](../../../AppData/Roaming/Typora/typora-user-images/image-20191224111455836.png)
+
+
 
 * 主要包含两个部分
   * 报文首部
-    * 起始行（在请求报文中用来说明要做些什么，在响应报文中说明出现了什么情况）
+    * 起始行（响应行、请求行。在请求报文中用来说明要做些什么，在响应报文中说明出现了什么情况）
     * ==首部字段==（有0个或者多个，为冒号分割的键值对）
   * 报文主体
     * 包含了传输的数据（任意的二进制数据或者文本）
     * 报文主体不一定都有（如get请求没有报文主体）
-
 * 报文主体和实体主体的差异
   * 通常报文主体就是实体主体
   * 只有在传输过程中进行编码操作，实体主体的内容发生了变化（被编码了）才会导致和报文主体的差异
 
 
 
-# 3 HTTP状态码
+## 2.2 请求方法（常见6种）
+
+* GET
+* POST
+* PUT
+* DELETE
+* TRACE -- 查看http请求路线中有没有代理（路由器）修改了发起的HTTP请求，服务器会把最后收到的请求返回
+* HEAD -- 和GET类似，只是不像GET请求那样要返回请求的内容，只有响应报文的首部（比如确认一个内容是否存在）
+* OPTIONS -- 返回web服务器可以支持的HTTP请求方式
+
+# 3 HTTP状态码++
 
 * 在RFC2616上的状态码共有40种
 * 加上扩展就有60余种
 * 但是==经常使用的大概只有14种==
+
+## 3.0 1xx 请求已经被接收，需要进一步处理
+
+* 101 Switching Protocols 请求头部若有Upgrade字段，服务器响应101表示可以进行协议的升级，随后将连接转换为升级后的协议(比如升级成websocket)
 
 ## 3.1 2XX 成功
 
@@ -80,11 +97,12 @@
 
 表明浏览器需要执行某些操作才能让服务器正确地处理请求
 
-* 301 Moved Permanently 永久性重定向
-* 302 Found 临时性重定向
+* 301 Moved Permanently 永久性重定向++
+* 302 Found 临时性重定向++
 * 303 See Other
-* 304 Not Modified 客户端请求中的一些条件无法被满足
+* 304 Not Modified 服务器告诉浏览器的缓存有效，浏览器可以直接使用缓存++
 * 305 Temporary Modified 临时性重定向
+* 307 请求转发
 
 ## 3.3 4XX 客户端错误
 
@@ -94,6 +112,7 @@
 * 401 Unauthorized 客户端发送的请求需要进行通过HTTP认证
 * 403 Forbidden 客户端请求的内容被服务器拒绝了
 * 404 Not Found 客户端请求的内容没有找到
+* 405 Method Not Allow web服务器不支持这个HTTP请求方法
 
 ## 3.4 5XX 服务器错误
 
@@ -155,8 +174,8 @@
 * From 客户端告诉服务器自己的电子邮件地址
 * ==Host== 客户端告诉服务器自己请求的主机名（比如：www.hackr.jp）
 * If-Match 带条件的请求—Etag值相关
-* If-Modified-Since 带条件的请求
-* If-None-Match 带条件的请求
+* If-Modified-Since 带条件的请求++
+* If-None-Match 带条件的请求++
 * If-Range 带条件的请求
 * If-Unmodified-Since 带条件的请求
 * Max-Forwards  客户端告诉服务器自己的请求能够被代理转发的次数
@@ -172,7 +191,7 @@
 
 * Accept-Ranges 服务器告诉客户端自己是否能够处理范围请求
 * Age  服务器告诉客户端自己的缓存已经存了多长时间
-* Etag  服务器告诉客户端实体的标识
+* Etag  服务器告诉客户端实体的标识++
 * Location  服务器告诉客户端请求的资源被转移的位置
 * Proxy-Authenticate 代理服务器告诉客户端自己所要求的的认证信息
 * Retry-After  服务器告诉客户端应该在多久后再次发起请求
@@ -185,7 +204,7 @@
 ==针对请求报文和响应报文主体部分==使用的首部
 
 * Allow 通知客户端能够支持的HTTP方法
-* Content-Encoding 表明实体主体选用的内容编码格式
+* Content-Encoding 表明实体主体选用的内容编码格式（对响应主体进行压缩处理的方式，以方便传输）
 * Content-Language 表明实体主体选用的自然语言
 * Content-Length 表明了实体主体的大小
 * Content-Location 表明报文主体对应的URI
@@ -238,7 +257,7 @@
   * 首先使用非对称加密将对称加密要使用的同一把密钥传递给双方（保证这个对称加密的密钥不被窃取）
   * 双方拿到对称加密的密钥后使用对称加密技术传递信息
 
-基于此，我们应该怎么确保非对称加密中的公钥是真实存在的，为了解决这个问题，就不得不使用由数字认证机构（CA，Certificate Authority）和其相关机构颁发的公开密钥证书，操作步骤为：
+基于此，我们应该怎么确保非对称加密中的公钥是真实存在的，为了解决这个问题，就不得不使用由数字认证机构（CA，Certificate Authority）和其相关机构颁发的公开密钥证书（可以把证书理解为非对称加密中的公钥），操作步骤为：
 
 1. 服务器的运营人员向CA提出要使用公开密钥的申请
 2. CA判定申请者身份后，会对申请者要申请的公开密钥进行数字签名，然后将这个公钥和公钥证书绑定在一起后再分配给申请者（意思就是：这个服务器要使用这个公钥进行加密通信，CA颁发一个数字签名证书来证明这件事是真的）
@@ -248,9 +267,11 @@
 
 以上讨论的证书都是==服务器端的证书==，客户端证书用得比较少，网上银行会使用，这里就不展开了
 
-### 6.2.3 建立HTTPS的过程
+### 6.2.3 建立HTTPS的过程++
 
-1. 客户端通过发送Client Hello报文开始SSL通信，报文中包含客户端支持的SSL版本，能够使用的加密算法列表和对应的密钥长度等信息
+1. 客户端通过发送Client Hello报文开始SSL通信，报文中包含客户端支持的SSL版本，能够使用的加密算法列表和对应的密钥长度等信息 
+
+   [客户端告诉服务器自己支持的加密算法]
 
    
 
@@ -260,6 +281,8 @@
 
 4. 服务器发送Server Hello Done报文，最初阶段SSL握手阶段结束
 
+   [服务器回应，告诉客户端自己支持的加密算法，把非对称加密的公钥（证书）给客户端]
+
    
 
 5. 初级握手阶段结束后，客户端以Client Key Exchange报文作为回应，将采用的对称密钥Pre-master secret这个密钥发送给服务器（本次报文已经使用证书中的公开密钥加密了，故不存在这个对称密钥被窃取的风险）
@@ -268,11 +291,17 @@
 
 7. 客户端发送Finished报文，里面包含之间通信内容的整体校验值
 
+   [客户端验证公钥（证书）的合法性，如果不通过，浏览器会提示链接有风险；验证通过就用这个非对称加密的公钥加密对称加密要使用的随机数]
+
    
 
 8. 服务器发送Change Cipher Spec报文，告诉客户端可以采用Pre-master secret这个密钥进行加密
 
 9. 服务器发送Finished报文
+
+   [服务器利用自己的非对称私钥解密，拿到随机数，以后就可以使用这个随机数进行内容的加密传输]
+
+   
 
 10. 客户端和服务器的Finished报文交换完毕过后，SSL连接建立完成
 
@@ -343,4 +372,53 @@
 ### 8.2.3 跨站请求伪造（Cross-Site Request Forgeries,CSRF）
 
 * 攻击者利用已经设置好的陷阱，拿到已完成认证的用户的认证信息（如sessionId，或者token）
+
+# 9 HTTP缓存++
+
+* 控制浏览器是否开启缓存响应的http响应的头部信息进行控制（使用广泛）或者页面的HTML meta 标签
+
+  ```html
+  含义是让浏览器不缓存当前页面
+  <META HTTP-EQUIV="Pragma" CONTENT="no-store">
+  ```
+
+## 9.1 协商缓存（需要浏览器向服务器确认缓存是否失效）
+
+* 依赖四个字段：Etag(响应字段),Last-Modified(响应字段) --- If-None-Match(请求字段),If-Modified-Since(请求字段)
+
+* 缓存一般用于网页上的图片（带有src的html标签所依赖的资源,比如css,js,图片等文件）
+* 如果浏览器中没有相关图片、文件的缓存，就正常发起请求
+
+```txt
+step1：
+第一次正常发起http请求去请求资源文件 
+服务器返回200 同时返回Etag,Last-Modified(这两个用来描述文件)
+
+step2：
+第二次请发请求(浏览器刷新)同一个图片，由于浏览器有缓存，浏览器需要向服务器确认缓存是否失效，带上字段If-Modified-Since,If-None-Match(这两个字段的值就是第一次服务器响应Last-Modified和Etag告诉浏览器的值)
+如果没有更新，服务器返回304,表示浏览器可以使用缓存的图片
+```
+
+<img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200619161856081.png" alt="image-20200619161856081" style="zoom:67%;" />
+
+## 9.2 强制缓存（不需要浏览器向服务器确认缓存是否失效）
+
+* 缓存的有效期需要web服务器自己设定（配置apache服务器的配置文件或者nginx服务器的）
+
+```txt
+step1:
+第一次正常发起http请求去请求资源文件 
+服务器返回200 同时返回Cache-Control或者Expire(Cache-Control的优先级比Expire高)
+Expire:取值是一个绝对时间
+Cache-Control:max-age=31536000 表示响应31536000秒后过期
+Cache-Control:public 表明响应可以被任何对象（发送请求的客户端、代理服务器等等）缓存
+Cache-Control:private 表明响应只能被单个用户（可能是操作系统用户、浏览器用户）缓存，是非共享的，不能被代理服务器缓存
+Cache-Control:no-cache 强制所有缓存了该响应的用户，在使用已缓存的数据前，发送带验证器的请求到服务器。
+Cache-Control:no-store 禁止浏览器缓存
+Cache-Control:must-revalidate 指定如果页面是过期的，则去服务器进行获取
+```
+
+
+
+<img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200619161919912.png" alt="image-20200619161919912" style="zoom:67%;" />
 

@@ -1,14 +1,17 @@
-# 一、说明
+# 一、说明(11个)
 
 * 无论是通过`new`方式还是构造函数的方式产生一个组件实例，都需要经过生命周期
-* beforeCreated()
-* created()
-* beforeMount()
-* mounted()
-* beforeUpdate()
-* updated()
-* beforeDestroy()
-* destroyed()
+* beforeCreated() 初始化组件的一些属性(带$符号的)
+* created() 初始化状态(props,methods,data,computed,watch)
+* beforeMount() 在挂载开始之前被调用，创建vm.$el属性
+* mounted()  实例已经被挂载到视图上去了，这里可以操作DOM
+* beforeUpdate() 该组件的数据更新之间调用
+* updated() 该组件的数据更新之后调用
+* beforeDestroy() 实例销毁之前调用。在这一步，实例仍然完全可用
+* destroyed() 所有的实例和其子实例都被销毁，所有的东西会被接触绑定
+* activated() 被keep-alive激活的时候
+* deactivated() keep-alive没有被激活的时候
+* errorCaptured()
 
 # 二、生命周期
 

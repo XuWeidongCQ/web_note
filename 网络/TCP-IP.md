@@ -323,7 +323,7 @@
 * 包长度
 * 校验和
 
-## 4.4 TCP
+## 4.4 TCP ++
 
 * TCP相比于UDP加入了对传输的许多控制
 * TCP是一种==面向有连接==的协议，只有确认通信对端存在时才会发送数据，从而避免通信流量浪费
@@ -340,15 +340,15 @@
 
 * 确认应答信息里面包括下一步应该接收的包序号
 
-  <img src="../../AppData/Roaming/Typora/typora-user-images/image-20200108150717619.png" alt="image-20200108150717619" style="zoom:50%;" />
+  <img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200108150717619.png" alt="image-20200108150717619" style="zoom:50%;" />
 
 * 在一定的时间内没有收到确认应答，发送端就可以认为数据已经丢失，并进行重发
 
-  <img src="../../AppData/Roaming/Typora/typora-user-images/image-20200108150451695.png" alt="image-20200108150451695" style="zoom: 50%;" />
+  <img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200108150451695.png" alt="image-20200108150451695" style="zoom: 50%;" />
 
 * 未收到确认信息并不意味着数据一定丢失，可能数据已经收到，但是确认收到信息在返回的途中丢失，这种情况也会进行重发
 
-  <img src="../../AppData/Roaming/Typora/typora-user-images/image-20200108150943606.png" alt="image-20200108150943606" style="zoom:50%;" />
+  <img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200108150943606.png" alt="image-20200108150943606" style="zoom:50%;" />
 
 * ==基于此，对于接受端来说，它必须得丢弃重复的数据才行==
 
@@ -362,7 +362,7 @@
 
 
 
-### 4.4.3 连接管理
+### 4.4.3 连接管理++
 
 * TCP是面向连接的，即在数据通信发生之前要先做好通信两端的准备工作，UDP则不会这么做
 
@@ -374,7 +374,7 @@
 
   * 当这三步（三次握手）全部完成后，这认为可以进行数据通信
 
-    <img src="../../AppData/Roaming/Typora/typora-user-images/image-20200108153513013.png" alt="image-20200108153513013" style="zoom:50%;" />
+    <img src="../../../AppData/Roaming/Typora/typora-user-images/image-20200108153513013.png" alt="image-20200108153513013" style="zoom:50%;" />
 
   * ==当断开连接的时候==，接收端和发送端都会发送FIN包给对方（四次握手切断连接）
 

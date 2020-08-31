@@ -1,6 +1,6 @@
 * v这些脚手架必须安装在全局环境中
 
-# 一、老版本
+# 一、老版本脚手架
 
 ```js
 //在全局安装
@@ -18,7 +18,7 @@ npm run dev
 npm run build
 ```
 
-# 二、新版本
+# 二、新版本脚手架
 
 ```js
 //先删除原来的版本
@@ -82,3 +82,10 @@ git push -u origin master
 ```
 
 * 第一次创建好了，之后可以使用vscode自带的git工具
+
+# 五、vue中的webpack配置
+
+* 在最近的vue-cli中，会把webpack的配置进行隐藏，自己配置好
+* 如果需要查看可以在node_modules/@vue/cli-service/lib/config/base.js里面看到
+* 可以通过新建一个vue.config.js来修改默认的配置
+* 通过命令vue ui可以打开可视化配置界面

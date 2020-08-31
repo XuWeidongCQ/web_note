@@ -1,99 +1,216 @@
-# #内置函数
+# 一、常用内置函数
 
-* 这些可以直接使用
+* 内置函数可以直接使用
 
-  ```python
-  abs()				dict()				help()			min()					setattr()
-  all()				dir()				hex()			next()					slice()
-  any()				divmod()			id()			object()				sorted()
-  ascii()				enumerate()			input()			 oct()					staticmethod()
-  bin()				eval()				int()			open()					str()
-  bool()				exec()				isinstance()	 ord()					sum()
-  bytearray()			filter()			issubclass()	 pow()					 super()
-  bytes()			    float()				iter()			print()					tuple()
-  callable()	         format()			 len()			 property()				 type()
-  chr()				frozenset()			list()			range()**				vars()
-  classmethod()		getattr()			locals()		 repr()					**zip()
-  compile()			globals()			map()			reversed()				__import__()
-  complex()			hasattr()			max()			round()	 
-  delattr()			hash()			    memoryview()	 set()
-  ```
+|      | 名称                                   | 返回值                                                       |
+| ---- | :------------------------------------- | ------------------------------------------------------------ |
+|      | chr(num)                               | 对应的ASCII字符                                              |
+|      | cmp(x,y)                               | 数字，用于比较两个对象如果 x < y返回 -1, 如果 x == y 返回 0, 如果 x > y 返回 1 |
+|      | dir(modelName)                         | 列表，模块内定义的所有函数                                   |
+|      | dict()                                 | 字典，dict(a='a', b='b', t='t') dict([('one', 1), ('two', 2), ('three', 3)]) |
+|      | enumerate(sequence, [start=0])         | 返回一个enumerate()对象 list(enumerate(['a','b'])) 返回[(0,'a'),(1,'b')] |
+|      | filter(func,iterable)                  | 迭代器，过滤一个序列的数据                                   |
+| ++   | len(iterable)                          | 数字，返回对象（字符、列表、元组等）长度或项目个数           |
+|      | map(func,list)                         | 迭代器，对一个列表进行映射                                   |
+|      | max(iterable) min(iterable)            | 数字                                                         |
+|      | open(path)                             | 文件对象                                                     |
+|      | ord(char)                              | 数字，字符的ASCII码                                          |
+|      | pow(x,y)                               | 数字                                                         |
+| ++   | range(start, stop[, step])             | 迭代器，不包括最后一位                                       |
+|      | reversed(iterable)                     | 迭代器，tuple, string, list 或 range翻转                     |
+| ++   | list(iterable)                         | 列表                                                         |
+|      | round(num,n)                           | 数字，将数字四舍五入保留n位小数                              |
+| ++   | sorted(iterable,cmp,key,reverse=False) | 列表                                                         |
+| ++   | sum(iterable,add=0)                    | 数字，求和后再加上add                                        |
+|      | type(object)                           | 返回对象类型 如：<type 'list'>                               |
+|      | zip(iter1,iter2,...)                   | zip可迭代对象，list(zip([1,2],[2,3,4])) -> [(1,2),(2,3)]     |
 
-* 常用的函数
+# 二、注释
 
-  ```python
-  chr() #输入一个数字，返回对应的ASCII字符
-  dir(model) #找到模块内定义的所有名称。以一个字符串列表的形式返回:
-  dict() #创建一个字典 dict(a='a', b='b', t='t') dict([('one', 1), ('two', 2), ('three', 3)])
-  enumerate(sequence, [start=0]) #返回一个enumerate()对象 list(enumerate(['a','b'])) 返回[(0,'a'),(1,'b')]
-  filter(func,iterable) #过滤一个序列的数据 返回一个迭代器对象
-  iter() #生成迭代器
-  input() #从键盘读入一行文本
-  len() #返回对象（字符、列表、元组等）长度或项目个数
-  list() #将字符串或者元组变为列表
-  map(func,list) #对一个列表进行映射
-  max(list)
-  min(list)
-  open() #打开一个文件 返回一个文件对象
-  ord() #返回一个字符的ASCII或Unicode数字
-  pow(x,y) # x**y
-  range(start, stop[, step]) #返回一个可迭代对象，不是列表啊 但是可以用list()转换为列表 不包括最后一位
-  reversed(seq) # tuple, string, list 或 range翻转 返回列表
-  round(x,n) #四舍五入
-  sorted(seq,key,reverse=False) #对可迭代对象进行排序 返回一个新的列表
-  sum(iterable,x) #对可迭代对象（列表，元组，集合）进行求和
-  type(object) #返回对象类型 如：<type 'list'>
-  zip(iter1,iter2,...) #返回一个zip对象，需要用list转化 list(zip([1,2],[2,3,4])) [(1,2),(2,3)]
-  ```
-
-  
-
-# 一、基本数据类型
-
-* Number -- int float bool complex
-* String
-* Tuple
-* List
-* Set
-* Dictionary
-* 前三个是不可变数据（简单数据），后三个是可变数据类型（引用类型）
-
-## 1.1 列表
-
-### 1.1.1 列表方法
-
-```python
-list = []
-
-list.append(ele) #在列表末尾添加一个元素
-list.count(ele) #统计某个元素在列表中出现的次数
-list.extend(list1) #在列表末尾一次性追加另一个序列中的多个值（用新列表扩展原来的列表）
-list.index(ele) #返回ele元素的索引 没找到会抛出异常
-list.insert(index,ele) #在index位置插入ele
-list.pop(index=-1) #移除一个元素（默认最后一个） 并返回这个元素
-list.remove(ele) #移除列表中某个值的第一个匹配项 没有就报错
-list.reverse() #翻转
-list.sort(key,reverse=False) #指定元素进行排序 reverse = True 降序， reverse = False 升序（默认）
-    # 获取列表的第二个元素
-    def takeSecond(elem):
-        return elem[1]
-    # 列表
-    random = [(2, 2), (3, 4), (4, 1), (1, 3)]
-    # 指定第二个元素排序
-    random.sort(key=takeSecond)
-    # 输出类别
-    print ('排序列表：', random)
-    # 结果[(4, 1), (2, 2), (1, 3), (3, 4)]
-list.clear() #清空列表
-list.copy() #复制列表 浅拷贝（只能拷贝第一层）
+```
+单行注释：以#开头
+多行注释：用三个单引号（'''）或者三个双引号（"""）将注释括起来
 ```
 
-### 1.1.2 列表推导式
+# 三、运算符
+
+## 3.1 算术运算符
+
+![image-20200831105556864](../../../AppData/Roaming/Typora/typora-user-images/image-20200831105556864.png)
+
+
+
+## 3.2 比较运算符
+
+![image-20200831105643967](../../../AppData/Roaming/Typora/typora-user-images/image-20200831105643967.png)
+
+
+
+## 3.3 赋值运算符
+
+![image-20200831105714469](../../../AppData/Roaming/Typora/typora-user-images/image-20200831105714469.png)
+
+## 3.4 位运算符
+
+![image-20200831105750187](../../../AppData/Roaming/Typora/typora-user-images/image-20200831105750187.png)
+
+
+
+## 3.5 逻辑运算符
+
+![image-20200831105837667](../../../AppData/Roaming/Typora/typora-user-images/image-20200831105837667.png)
+
+
+
+## 3.6 成员运算符++
+
+![image-20200831105918984](../../../AppData/Roaming/Typora/typora-user-images/image-20200831105918984.png)
+
+
+
+## 3.7 身份运算符
+
+![image-20200831110012337](../../../AppData/Roaming/Typora/typora-user-images/image-20200831110012337.png)
+
+# 四、基本数据类型
+
+```
+Python中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建.
+
+Python 3中有六个标准的数据类型：
+Numbers（数字）（支持int、float、bool、complex）
+String（字符串）
+List（列表）
+Tuple（元组）
+Sets（集合）
+Dictionaries（字典）
+```
+
+![image-20200831110602631](../../../AppData/Roaming/Typora/typora-user-images/image-20200831110602631.png)
+
+# 五、字符串
+
+```python
+# 单行字符串
+a = 'hello'
+
+# 多行字符串
+a = ''' xxxxxx
+xxxxxxxx'''
+```
+
+## 5.1 字符串方法
+
+```python
+['capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map', 'index', 'isalnum', 'isalpha', 'isascii', 'isdecimal', 'isdigit', 'isidentifier', 'islower', 'isnumeric', 'isprintable', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'maketrans', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
+```
+
+![image-20200831111810785](../../../AppData/Roaming/Typora/typora-user-images/image-20200831111810785.png)
+
+|      | 名称                        | 返回值                                                       |
+| ---- | --------------------------- | ------------------------------------------------------------ |
+|      | s.count(char,start,end)     | 数组，统计字符串s中char出现的次数                            |
+|      | s.endswith(chars,start,end) | 布尔，检查指定范围内的字符串是否以chars结尾                  |
+|      | s.find(chars,start,end)     | 布尔                                                         |
+|      | s.format()                  | 字符串，格式化字符串                                         |
+|      | s.index(char,beg,end)       | 数字，找到char的索引，没找到会报错                           |
+|      | s.join(iterable)            | 字符串，以字符串s作为分隔符拼接可迭代对象(可迭代对象中不能有数字) |
+|      | s.ljust(width)              | 字符串，返回一个原字符串左对齐,并使用空格填充至长度 width 的新字符串 |
+|      | s.lstrip()                  | 字符串，去掉左边空格                                         |
+|      | s.replace(str1,str2,nun)    | 字符串，把 string 中的 str1 替换成 str2,如果 num 指定，则替换不超过 num 次. |
+| ++   | s.split(str)                | 列表，以字符str分割s                                         |
+
+
+
+## 5.2 u r标志符
+
+```python
+# 1.u标志符表示字符串中可以输入Unicode字符，比如中文
+a = u'我是xxx'
+a = u'Hello\u0020World !'
+
+# 2.r标志符会去掉反斜杠的转义机制
+a = r'iam\nsd'
+
+# 3.f标志符表示字符串中指出python表达式
+import time
+t0 = time.time()
+time.sleep(1)
+name = 'processing'
+a = f'{name} done in {time.time() - t0:.2f} s'
+```
+
+
+
+## 5.3 字符串运算符
+
+![image-20200831114030930](../../../AppData/Roaming/Typora/typora-user-images/image-20200831114030930.png)
+
+# 六、列表
+
+## 6.1 列表运算符
+
+![image-20200831131031192](../../../AppData/Roaming/Typora/typora-user-images/image-20200831131031192.png)
+
+```python
+# 列表索引
+l = [0,1,2,3,4]
+
+l[-1] #4
+l[1:] #1 2 3 4
+l[0::2] #0 2 4 取偶数索引位置的元素
+```
+
+
+
+## 6.2 列表方法
+
+```python
+['append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+```
+
+
+
+|      | 方法名                                    | 返回值                            |
+| ---- | ----------------------------------------- | --------------------------------- |
+| ++   | list.append(ele)                          | None，在原来的列表后面追加        |
+|      | list.clear()                              | None，清空列表                    |
+|      | list.copy()                               | 列表，深复制第一层                |
+|      | list.count(ele)                           | 数字，统计元素的出现的次数        |
+| ++   | list.extend(iterable)                     | None，在原来列表中批量追加元素    |
+|      | list.index(ele)                           | 索引，没找到报错                  |
+|      | list.insert(index,ele)                    | None，在指定位置插入元素          |
+| ++   | list.pop(index=-1) 等价于 del list[index] | None，删除指定位置的元素          |
+|      | list.remove(ele)                          | None，在列表中删除第一次出现的ele |
+|      | list.reverse()                            | None，翻转列表                    |
+|      | list.sort(key,reverse=False)              | None，列表排序                    |
+
+
+
+```python
+list.sort(key,reverse=False) #指定元素进行排序 reverse = True 降序， reverse = False 升序（默认）
+# 获取列表的第二个元素
+def takeSecond(elem):
+    return elem[1]
+# 列表
+random = [(2, 2), (3, 4), (4, 1), (1, 3)]
+# 指定第二个元素排序
+random.sort(key=takeSecond)
+# 输出类别
+print ('排序列表：', random)
+# 结果[(4, 1), (2, 2), (1, 3), (3, 4)]
+```
+
+## 6.3 列表推导式
 
 ```python
 >>> vec = [2, 4, 6]
 >>> [3*x for x in vec]
 [6, 12, 18]
+
+>>> [x for x in vec if x%3 == 0] 
+[6]
+
 
 >>> [[x, x**2] for x in vec]
 [[2, 4], [4, 16], [6, 36]]
@@ -107,192 +224,160 @@ list.copy() #复制列表 浅拷贝（只能拷贝第一层）
 >>> vec2 = [4, 3, -9]
 >>> [x*y for x in vec1 for y in vec2]
 [8, 6, -18, 16, 12, -36, 24, 18, -54]
-
-
 ```
 
-
-
-
-
-## 1.2 元组
-
-### 1.2.1 元组方法
+# 七、元组
 
 ```python
-# 元组中的元素不能修改 只能读取
-# 但是可以拼接两个元组 删除整个元组
+# 元组是有序，且不能修改，只能只读的序列(不能增删改)
 
-tup1 = (12, 34.56)
-tup2 = ('abc', 'xyz')
-# 以下修改元组元素操作是非法的。
-# tup1[0] = 100
-tup3 = tup1 + tup2
-print (tup3)
-
-# 删除后的元组不能访问了，否则出错
-tup = ('Google', 'Runoob', 1997, 2000)
-print (tup)
-del tup
+tup = (1,2)
+tup = (1,) #一个元素必须加逗号
 ```
 
-## 1.3 字典
+## 7.1 元组运算符
 
-### 1.3.1字典方法
+```
+1 索引运算符[]
+2 合并 +运算符
+```
+
+## 7.2 元组方法
+
+|      | 方法名         | 返回值             |
+| ---- | -------------- | ------------------ |
+|      | tup.count(ele) | 数字，统计元素次数 |
+|      | tup.index(ele) | 索引值, 没找到报错 |
+
+# 八、集合
 
 ```python
-dic = {}
+# 集合是无序和无索引的序列
 
-dic.clear() #删除字典中的所有问题
-dic.copy() #浅复制 （只复制第一层，嵌套对象不能复制）
-dic.fromkeys(keyList,vallist) #创建一个新字典，以序列keyList中元素做字典的键，vallist为字典所有键对应的初始值
-dic.get(key) #返回指定键的值，如果值不在字典中返回default值
-key in dic #如果键在字典dict里返回true，否则返回false
-dic.items() #以列表返回可遍历的(键, 值) 元组数组 例子：dict_items([('Age', 7), ('Name', 'Runoob')]) 这个不是列表
-dic.keys() #返回一个迭代器，可以使用 list() 来转换为列表
-dic.values() #返回一个迭代器，可以使用 list() 来转换为列表
-dic.pop(key) #删除字典给定键 key 所对应的值，返回值为被删除的值
-dic.popitem() #返回并删除字典中的最后一对键和值
+s = {1,2}
 ```
 
-## 1.4 集合
-
-### 1.4.1 集合方法
+## 8.1 集合方法
 
 ```python
-s = new set()
-
-s.add(ele) #添加元素
-s.clear() #移除集合中的所有元素
-s.copy() #拷贝一个集合
-++ s.different(s1) #返回的集合元素包含在第一个集合中，但不包含在第二个集合(方法的参数)中
-s.discard(ele) #该方法不同于 remove() 方法，因为 remove() 方法在移除一个不存在的元素时会发生错误，而 discard() 方法不会
-++ s.intersection(s1,s2,...) #返回多个集合的交集
-s.isdisjoint(s1) #判断两个集合是否包含相同的元素，如果没有返回 True，否则返回 False
-s.issubset(s1) #判断集合的所有元素是否都包含在指定集合中，如果是则返回 True，否则返回 False s是否都在s1
-s.issuperset(s1) #判断指定集合的所有元素是否都包含在原始的集合中，如果是则返回 True，否则返回 False s是否包含s1
-s.pop() #随机移除元素 返回该元素
-s.remove(ele) #移除指定的元素
-++ s.symmetric_difference(s1) #返回两个集合中不重复的元素集合，即会移除两个集合中都存在的元素(返回两个集合的并集-交集)
-++ s.union(s1) #返回两个集合的并集
-s.update(obj) #添加一个数组（会被拆开） 字典 元组
+['add', 'clear', 'copy', 'difference', 'difference_update', 'discard', 'intersection', 'intersection_update', 'isdisjoint', 'issubset', 'issuperset', 'pop', 'remove', 'symmetric_difference', 'symmetric_difference_update', 'union', 'update']
 ```
 
-## 1.5 字符串
+|      | 方法名                    | 返回值                                                      |
+| ---- | ------------------------- | ----------------------------------------------------------- |
+| ++   | s.add(ele)                | None，添加元素                                              |
+|      | s.clear()                 | None，清空集合                                              |
+|      | s.copy()                  | 集合，深复制第一层                                          |
+|      | s.difference(s1)          | 集合，差集s - s1                                            |
+| ++   | s.discard(ele)            | None，删除集合中的一个元素                                  |
+| ++   | s.intersection(s1,s2,...) | 集合，多个集合的交集                                        |
+|      | s.isdisjoint(s1)          | 布尔，是否没有相同的元素，如果没有返回 True，否则返回 False |
+|      | s.issubset(s1)            | 布尔，s是否是s1的子集                                       |
+|      | s.issuperset(s1)          | 布尔，s是否是s1的超集                                       |
+|      | s.pop()                   | 删除的元素，随机删除一个元素                                |
+|      | s.remove(ele)             | None，移除指定的元素，没有找到报错                          |
+| ++   | s.union(s1)               | 集合，s和s1的并集                                           |
 
-### 1.5.1 运算符
-
-```
-+
-*
-[]
-[:]
-in
-not in
-%
-```
-
-### 1.5.2 字符串方法
+# 九、字典
 
 ```python
-s = ''
-
-s.capitalize() #将字符串的第一个字符转换为大写
-s.center(width,fillchar) #返回一个指定的宽度 width 居中的字符串，fillchar 为填充的字符，默认为空格
-s.count(str,beg=0,end=len(string)) #统计字符串里某个字符出现的次数。可选参数为在字符串搜索的开始与结束位置
-s.encode('UTF-8') s.encode('GBK') #返回以字符串以特定的格式编码的字符串
-s.decode('UTF-8') #将这个以UTF8编码的字符串解码
-s.endswith(s1) #如果字符串含有指定的后缀返回 True，否则返回 False
-s.find(s1,beg=0,end=12) #检测str是否包含在字符串中，如果指定范围 beg 和 end ，则检查是否包含在指定范围内，如果包含返回开始的索引值，否则返回-1
-s.isalnum() #如果字符串至少有一个字符并且所有字符都是字母或数字则返 回 True,否则返回 False
-s.isalpha() #如果字符串至少有一个字符并且所有字符都是字母则返回 True, 否则返回 False
-s.isdigit() #如果字符串只包含数字则返回 True 否则返回 False.
-s.islower() #如果字符串中包含至少一个区分大小写的字符，并且所有这些(区分大小写的)字符都是小写，则返回 True，否则返回 False
-s.isnumeric() #如果字符串中只包含数字字符，则返回 True，否则返回 False
-s.isspace() #如果字符串中只包含空白，则返回 True，否则返回 False.
-s.issuper() #所有这些(区分大小写的)字符都是大写，则返回 True，否则返回 False
-s.split() #分割产生列表
-s.lstrip()
-s.rstrip()
-s.strip()
-s.startwith(s1,beg,end) #查字符串是否是以指定子字符串s1开头，是则返回 True，否则返回 False。如果beg和 end 指定值，则在指定范围内检查
+# 字典是一个无序、可变和有索引的集合
+dic = {
+    'name':'xwd',
+    'sex':'male'
+}
 ```
 
-# 二、语句
-
-## 2.1 循环语句
+## 9.1 字典方法
 
 ```python
-while 判断条件(condition)：
-    执行语句(statements)……
-    
-while <expr>:
-    <statement(s)>
-else:
-    <additional_statement(s)>   
- 
-for <variable> in <sequence>: #<sequence>是一个可迭代对象
-    <statements>
-else:
-    <statements>
-    
-
+['clear', 'copy', 'fromkeys', 'get', 'items', 'keys', 'pop', 'popitem', 'setdefault', 'update', 'values']
 ```
 
-## 2.2 运算符
+|      | 方法名                       | 返回值                                       |
+| ---- | ---------------------------- | -------------------------------------------- |
+|      | dic.clear()                  | None，清空字典                               |
+|      | dic.copy()                   | 字典，深复制第一层                           |
+|      | dic.from(keyList,defaultVal) | 字典，创建拥有默认值的字典                   |
+| ++   | dic.get(key) 等价于 dic[key] | 返回指定键的值，没找到报错                   |
+|      | dic.items()                  | dict_items可迭代对象                         |
+|      | dic.keys()                   | dict_keys可迭代对象                          |
+|      | dic.pop(key)                 | 删除key的值，删除指定key，没有找到报错       |
+|      | dic.popitem()                | 返回并删除字典中的最后一对键和值             |
+|      | dic.setdefault(key,val)      | 返回指定key的值，如果不存在就添加并设值为val |
+|      | dic.values()                 | dict_values可迭代对象                        |
+
+
+
+# 十、函数
 
 ```python
-+
--
-*
-/
-%
-**
-//
+# 默认参数
+def my_function(country = "China"):
+  print("I am from " + country)
 
+# 参数数目未知
+def my_function(*kids): #会把所有的参数变为一个列表kids
+  print("The youngest child is " + kids[2])
+
+
+# lambda函数 lambda arguments : expression
+x = lambda a : a + 10
+print(x(5)) # 15
 ```
 
 
 
-# 三、模块
-
-* 模块是一个包含所有你定义的**函数和变量**的文件，其后缀名是.py。模块可以被别的程序引入，以使用该模块中的函数等功能。这也是使用 python 标准库的方法。
-* 相同名字的函数和变量完全可以分别存在不同的模块中，因此，我们自己在编写模块时，不必考虑名字会与其他模块冲突。但是也要注意，尽量不要与内置函数名字冲突
-* 个模块只会被导入一次，不管你执行了多少次import。这样可以防止导入模块被一遍又一遍地执行。
-
-## 3.1 模块的导入
+# 十一、正则
 
 ```python
-#一个support.py文件
-def print_func( par ):
-    print ("Hello : ", par)
-    return
+import re
 
-#用法
-import support
-support.print_func('xu')
+# 注意这些函数的第一个参数都是正则表达式字符串
 
-#从模块中导入一个指定的部分到当前命名空间中
-from modname import name1[, name2[, ... nameN]]
+
+# findAll()方法 返回列表,没找到就是空列表
+str = "China is a great country"
+x = re.findall("USA", str)
+print(x)
+
+# search()方法 返回Match对象
+str = "China is a great country"
+x = re.search("\s", str)
+print("The first white-space character is located in position:", x.start())
+
+# split()方法 返回列表
+str = "China is a great country"
+x = re.split("\s", str) #将字符串str以空格分隔为列表
+print(x)
+
+# sub()方法 替换字符串中指定的模板
+str = "China is a great country"
+x = re.sub("\s", "9", str)
+print(x)
 ```
 
-## 3.2 内置的模块
+## 11.1 Match对象方法
 
-### OS
+```python
+['end', 'endpos', 'expand', 'group', 'groupdict', 'groups', 'lastgroup', 'lastindex', 'pos', 're', 'regs', 'span', 'start', 'string']
+```
 
-* **os** 模块提供了非常丰富的方法用来处理文件和目录
+# 十二、conda所有命令
 
-### sys
+```powershell
+conda list # 查看所有包
+conda update xxx   #更新xxx文件包
+conda uninstall xxx   #卸载xxx文件包
+conda install --channel [https://xxx] [package_name] #通过指定的通道下载包
 
-* 命令行参数
+conda create --name [your_env_name] python=3.5 #创建虚拟环境同时指定python的版本
 
-###  re
+conda activate xxxx               #开启xxxx环境
+conda deactivate                  #关闭环境
+conda env list                    #显示所有的虚拟环境
 
-* 正则模块
-
-### math
-
-### urllib
-
-### datetime
+conda config --show channels      #显示当前的下载通道
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ #添加一个下载通道
+```
 

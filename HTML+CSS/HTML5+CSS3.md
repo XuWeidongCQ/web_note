@@ -266,11 +266,11 @@ chrome:webkit    firefox:moz   ie:ms   opera:o
 
 ## 7.7 web存储
 
-* 之前使用cookie存储，现在可用其他的
+* 之前使用cookie存储（但是只有4k），现在可用其他的(可存储5M)
 
 ### 7.7.1  sessionStorage(关闭当前页面清空)
 
-* 可以存储数据到本地，大小为5MB左右，本质是存放在**当前页面**的内存中
+* 可以存储数据到本地，大小为5MB左右，本质是存放在**当前页面**的内存中（如果当前页面中存在iframe，而且iframe和父页面属于同源的，那么iframe可以共享sessionStorage中的数据）
 * setItem(key,value)
 * getItem(key)
 * removeItem(key)
@@ -279,7 +279,7 @@ chrome:webkit    firefox:moz   ie:ms   opera:o
 ### 7.7.2 localStorage(永久生效，存在硬盘中)
 
 * 可以存储数据到本地，大小为20MB左右，必须手动清除
-* 不同浏览器不能共享数据，但是同一个浏览器的不同窗口可以共享数据
+* 不同浏览器（比如一个是谷歌，一个是火狐）不能共享数据，但是同一个浏览器的不同窗口（这些窗口必须属于是相同的域名和端口）可以共享数据
 * setItem(key,value)
 * getItem(key)
 * removeItem(key)
@@ -486,6 +486,11 @@ flex-direction: 设置主轴的方向
 flex-grow:integer 弹性容器有宽度剩余时候，子元素怎么进行扩展
 flex-shrink:integer 弹性容器宽度不够时候，子元素怎么进行收缩
 flex: flex-grow flex-shrink flex-basis 如果弹性容器有宽度剩余或者宽度不够的时候，弹性元素怎么进行放大还是怎么收缩
-align-self: 设置弹性伸缩项在侧轴的对齐方式
+
+
+justify-content:设置主轴对齐方式
+align-items:设置侧轴的对齐方式
+align-self:在单独的弹性元素上设置，以覆盖align-items的值
+align-content:在弹性容器有多行的时候可以设置这些行在侧轴上的对齐方式
 ```
 

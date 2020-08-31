@@ -28,7 +28,7 @@
   }).$mount('#app');
   ```
 
-* 使用了路由的web应用，会在所有的组件实例中注入一个`$router`属性
+* 使用了路由的web应用，会在所有的组件实例中注入一个`$router`属性(本质是加到vue.prototype上的)
 
 * 使用了路由的web应用，所有的组件中都可以使用<router-link>组件和<router-view>组件
 

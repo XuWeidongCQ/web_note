@@ -1,3 +1,5 @@
+![image-20200807093154062](../../../AppData/Roaming/Typora/typora-user-images/image-20200807093154062.png)
+
 # $API
 
 ## 一、说明
@@ -478,3 +480,95 @@ document.getElementById('app').appendChild(component.$el)
 * 通过全局混入来添加一些组件选项。如 [vue-router](https://github.com/vuejs/vue-router)
 
 * 添加 Vue 实例方法，通过把它们添加到 `Vue.prototype` 上实现。
+
+# $在浏览器中的vue对象
+
+![image-20200807110840312](../../../AppData/Roaming/Typora/typora-user-images/image-20200807110840312.png)
+
+* 通过在浏览器中测试，做以下总结
+
+```
+1.vue可以把一个HTML模板表示为一个vue对象
+2.如果不调用这个这个对象的$mount()方法，页面上不会呈现HTML模板的内容
+3.内部的this指向该vm对象
+4.组件本身是一个options,只有把该options传入父组件中的components属性中才能进行实例化
+```
+
+![image-20200807094711730](../../../AppData/Roaming/Typora/typora-user-images/image-20200807094711730.png)
+
+## 1 vm上的属性和方式
+
+| 属性名      | 说明                                                         | 数据类型    |
+| ----------- | ------------------------------------------------------------ | ----------- |
+| $attr       |                                                              | {}          |
+| $children   | 当前vm的直接子组件                                           | []          |
+| $el(重要)   | 该vm所生成的DOM片段                                          | HTMLElement |
+| $listeners  | 该vm的父组件在该vm上的绑定的事件监听器(该监听器没有使用.native修饰) | {}          |
+| $options    | 构建该vm所传入的option对象                                   | {}          |
+| $parent     | 指向该vm的父组件(没有为undefined)                            |             |
+| $refs       | 模板中使用ref属性标记的元素                                  | {}          |
+| $root       | 指向根组件                                                   | Vue         |
+| $scopeSlots | 模板内部的作用域插槽                                         | {}          |
+| $slots      | 模板内部的插槽                                               | {}          |
+| $isServer   | 是否服务端渲染                                               | 布尔        |
+| $props      | 该vm可以在外部接受的值                                       | {}          |
+| $data       | 该vm内部的data属性                                           | {}          |
+
+## 2 vm原型上的方法
+
+| 函数名                     | 作用                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| $delete(target,key)        | 删除对象的 property。如果对象是响应式的，确保删除能触发更新视图。 |
+| $destory()                 | [尽量不使用，而是使用v-for来驱动]                            |
+| $emit(eventName,payload)   | 在该vm上触发一个事件，该事件可以被监听器监听                 |
+| $mount(el)                 |                                                              |
+| $nextTick(fn)              | 将回调延迟到下次 DOM 更新循环之后执行                        |
+| $off(eventName,fn)         | 移除该vm上的监听器                                           |
+| $on(eventName,fn)          | 监听当前vm上的自定义事件，一旦触发就执行fn                   |
+| $once(eventName,fn)        | 监听当前vm上的自定义事件，一旦触发就执行fn(但是只触发一次，之后监听器会被移除) |
+| $set(target,key,val)       | 向vm中添加一个响应式数据                                     |
+| $watch(expOrFn,cb,options) | 让vm监听一个表达式或者一个函数计算的结果，一旦变化就会触发cb |
+
+## 3 组件本质
+
+```html
+<body>
+  <div id="app">
+
+  </div>
+</body>
+<script>
+    //一个子组件的options
+  const comp = {
+    template:'<span>{{ fruits }}</span>',
+    data:function(){
+      return {
+        fruits:'apple'
+      }
+    }
+  }
+</script>
+<script>
+  const template = "<div id='danger'>{{name + sex}}<span></span><comp></comp></div>"
+  //实例化一个父组件并在页面中显示
+  const vm = new Vue({
+    template:template,
+    components:{//在该组件上引入子组件的options
+      comp:comp
+    },
+    props:['age'],
+    data:function(){
+      return {
+        name:'xwd',
+        sex:'male'
+      }
+    },
+    created(){
+      console.log(this)
+      
+    },
+  })
+  vm.$mount('#app')
+</script>
+```
+
